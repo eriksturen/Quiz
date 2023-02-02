@@ -14,7 +14,6 @@ class PlayerScore {
     constructor(name, score) {
         this.name = name;
         this.score = score;
-        date
         this.time = Date.now();
     }
 }
@@ -145,7 +144,7 @@ function checkAllQuestionsAnswered() {
         const player = new PlayerScore(name, score);
 
         const highscoreJson = localStorage.getItem("highscore");
-        if (highscoreJson.charAt(0) == "[") {
+        if (highscoreJson) {
             const highscore = JSON.parse(highscoreJson);
             highscore.push(player);
             localStorage.setItem("highscore", JSON.stringify(highscore));
