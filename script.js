@@ -3,25 +3,8 @@
 // för att välja med querySelector och id skriv så (den drar via css:en):
 const highscoreList = document.querySelector("#highscore-list");
 
-const highscore = [];
+const highscoreJson = localStorage.getItem("highscore");
 
-// I JS kan vi skapa JSON direkt - men notera att sista attributet ej får sluta på komma
-const highscoreJson = `
-[
-    {
-        "name":"Benke",
-        "score": 12
-    },
-    {
-        "name": "Rufus",
-        "score": 5   
-    },
-    {
-        "name": "Grisen",
-        "score": 9
-    }
-]
-`;
 
 populateHighscore();
 
@@ -37,7 +20,9 @@ function populateHighscore() {
         const li = document.createElement('li');
         // såhär kan man lägga till klasser på ett element man skapat:
         li.classList.add("list-group-item", "bg-dark", "text-warning");
-        li.innerText = `${entry.name} ${entry.score}`;
+        const dt = new Date(entry.time);
+
+        li.innerText = `${entry.name} ${entry.score} ${dt.toLocaleDateString("SWE")} `;
         //appendChild istället skulle bara kunna lägga till en grej åt gången, append kan lägga till flera (append är nyare)
         highscoreList.append(li);
     }

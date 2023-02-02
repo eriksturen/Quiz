@@ -10,16 +10,27 @@ class Question {
     }
 }
 
+class PlayerScore {
+    constructor(name, score) {
+        this.name = name;
+        this.score = score;
+        date
+        this.time = Date.now();
+    }
+}
+
 const qList = document.querySelector("#questions");
 
 const scoreDisplay = document.querySelector("#score");
 let score = 0;
+let questionsAnswered = 0;
 
 // skapa ett frågeobjekt  i en lista med hjälp av en klass som har en constructor längre ner:
 
 const questions = [];
 
 async function startButtonClick() {
+    questionsAnswered = 0;
     // drar frågor från OpenTrivias api:
     const url = new URL(
         `https://opentdb.com/api.php?amount=10&category=20&type=boolean`
@@ -124,4 +135,25 @@ function guessButtonClick(question, cardBody, falseButton, trueButton, guess) {
     };
     trueButton.disabled = true;
     falseButton.disabled = true;
+    questionsAnswered++;
+    checkAllQuestionsAnswered();
+}
+
+function checkAllQuestionsAnswered() {
+    if (questionsAnswered == questions.length) {
+        const name = window.prompt("Enter name for highscore:");
+        const player = new PlayerScore(name, score);
+
+        const highscoreJson = localStorage.getItem("highscore");
+        if (highscoreJson.charAt(0) == "[") {
+            const highscore = JSON.parse(highscoreJson);
+            highscore.push(player);
+            localStorage.setItem("highscore", JSON.stringify(highscore));
+
+        } else {
+            const highscore = [];
+            highscore.push(player);
+            localStorage.setItem("highscore", JSON.stringify(highscore));
+        }
+    }
 }
